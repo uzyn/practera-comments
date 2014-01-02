@@ -130,6 +130,25 @@ class CommentsComponent extends Component {
  * @var string user model class name
  */
 	public $userModelClass = 'User';
+/**
+ * User_id key for user model in ClassRegistry format.
+ * Ex: For User model stored in User plugin need to use Users.User
+ *
+ * Customizable in beforeFilter()
+ *
+ * @var string user model class name
+ */
+	public $userModelForeignKey = 'id';
+
+/**
+ * User_id key for user model in ClassRegistry format.
+ * Ex: For User model stored in User plugin need to use Users.User
+ *
+ * Customizable in beforeFilter()
+ *
+ * @var string user model class name
+ */
+	public $userModelFields = array('name');
 
 /**
  * Flag if this component should permanently unbind association to Comment model in order to not
@@ -208,7 +227,7 @@ class CommentsComponent extends Component {
  * @return CommentsComponent
  */
 	public function __construct(ComponentCollection $collection, $settings = array()) {
-		parent::__construct($collection, $settings); 
+		parent::__construct($collection, $settings);
 		foreach ($settings as $setting => $value) {
 			if (isset($this->{$setting})) {
 				$this->{$setting} = $value;
@@ -243,7 +262,7 @@ class CommentsComponent extends Component {
 		$controller->helpers = array_merge($controller->helpers, array('Comments.CommentWidget', 'Time', 'Comments.Cleaner', 'Comments.Tree'));
 
 		if (!$controller->{$this->modelName}->Behaviors->attached('Commentable')) {
-			$controller->{$this->modelName}->Behaviors->attach('Comments.Commentable', array('userModelAlias' => $this->userModel, 'userModelClass' => $this->userModelClass));
+			$controller->{$this->modelName}->Behaviors->attach('Comments.Commentable', array('userModelAlias' => $this->userModel, 'userModelClass' => $this->userModelClass, 'userModelForeignKey' => $this->userModelForeignKey, 'userModelFields' => $this->userModelFields ));
 		}
 	}
 
@@ -371,8 +390,8 @@ class CommentsComponent extends Component {
 		$paginate['limit'] = 10;
 
 		$overloadPaginate = !empty($this->Controller->paginate['Comment']) ? $this->Controller->paginate['Comment'] : array();
-		$this->Controller->Paginator->settings['Comment'] = array_merge($paginate, $overloadPaginate);
-		$data = $this->Controller->Paginator->paginate($this->Controller->{$this->modelName}->Comment);
+		$this->Controller->paginate = array_merge($paginate, $overloadPaginate);
+		$data = $this->Controller->paginate($this->Controller->{$this->modelName}->Comment);
 		$parents = array();
 		if (isset($data[0]['Comment'])) {
 			$rec = $data[0]['Comment'];
@@ -393,8 +412,8 @@ class CommentsComponent extends Component {
 		$paginate = $this->_prepareModel($options);
 
 		$overloadPaginate = !empty($this->Controller->paginate['Comment']) ? $this->Controller->paginate['Comment'] : array();
-		$this->Controller->Paginator->settings['Comment'] = array_merge($paginate, $overloadPaginate);
-		return $this->Controller->Paginator->paginate($this->Controller->{$this->modelName}->Comment);
+		$this->Controller->paginate = array_merge($paginate, $overloadPaginate);
+		return $this->Controller->paginate($this->Controller->{$this->modelName}->Comment);
 	}
 
 /**

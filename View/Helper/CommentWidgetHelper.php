@@ -52,7 +52,7 @@ class CommentWidgetHelper extends AppHelper {
  *
  * @var array
  */
-	protected $__passedParams = array('displayType', 'viewComments');
+	protected $__passedParams = array('displayType');
 
 /**
  * Global widget parameters
@@ -78,7 +78,6 @@ class CommentWidgetHelper extends AppHelper {
 	public function beforeRender($file = null) {
 		parent::beforeRender($file);
 		$View = $this->__view();
-
 		$this->enabled = !empty($View->viewVars['commentParams']);
 		if ($this->enabled) {
 			foreach ($this->__passedParams as $param) {

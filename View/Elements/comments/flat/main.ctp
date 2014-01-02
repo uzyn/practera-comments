@@ -11,6 +11,7 @@
 ?>
 <div class="comments">
 <?php
+
 if ($allowAddByAuth):
 	if ($isAddMode && $allowAddByAuth): ?>
 		<h3><?php echo __d('comments', 'Add New Comment'); ?></h3>
@@ -26,12 +27,12 @@ else: ?>
 	<?php
 		echo sprintf(__d('comments', 'If you want to post comments, you need to login first.'), $this->Html->link(__d('comments', 'login'), array('controller' => 'users', 'action' => 'login', 'prefix' => $adminRoute, $adminRoute => false)));
 endif;
-
-echo $this->CommentWidget->element('paginator');
-foreach (${$viewComments} as $comment):
-	echo $this->CommentWidget->element('item', array('comment' => $comment));
-endforeach;
-
+if (!empty(${$viewComments})):
+	echo $this->CommentWidget->element('paginator');
+	foreach (${$viewComments} as $comment):
+		echo $this->CommentWidget->element('item', array('comment' => $comment));
+	endforeach;
+endif;
 ?>
 </div>
 <?php echo $this->Html->image('/comments/img/indicator.gif', array('id' => 'busy-indicator',

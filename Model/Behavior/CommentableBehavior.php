@@ -45,7 +45,9 @@ class CommentableBehavior extends ModelBehavior {
 		'commentModel' => 'Comments.Comment',
 		'spamField' => 'is_spam',
 		'userModelAlias' => 'UserModel',
-		'userModelClass' => 'User'
+		'userModelClass' => 'User',
+		'userModelForeignKey' => 'id',
+		'userModelFields' => array('name')
 	);
 
 /**
@@ -66,6 +68,7 @@ class CommentableBehavior extends ModelBehavior {
 		$this->settings[$model->alias] = array_merge($this->settings[$model->alias], $settings);
 
 		$cfg = $this->settings[$model->alias];
+
 		$model->bindModel(array('hasMany' => array(
 			'Comment' => array(
 				'className' => $cfg['commentModel'],
@@ -92,9 +95,9 @@ class CommentableBehavior extends ModelBehavior {
 		$model->Comment->bindModel(array('belongsTo' => array(
 			$cfg['userModelAlias'] => array(
 				'className' => $cfg['userModelClass'],
-				'foreignKey' => 'user_id',
+				'foreignKey' => $cfg['userModelForeignKey'],
 				'conditions' => '',
-				'fields' => '',
+				'fields' => $cfg['userModelFields'],
 				'counterCache' => true,
 				'order' => ''))), false);
 	}
@@ -294,7 +297,7 @@ class CommentableBehavior extends ModelBehavior {
 		}
 
 		$model->Comment->belongsTo[$model->alias]['fields'] = array($model->primaryKey);
-		$model->Comment->belongsTo[$userModel]['fields'] = array('id', $model->Comment->{$userModel}->displayField, 'slug');
+		$model->Comment->belongsTo[$userModel]['fields'] = am(array($this->settings[$model->alias]['userModelForeignKey'], $model->Comment->{$userModel}->displayField, 'slug'), $this->settings[$model->alias]['userModelFields']);
 		$conditions = array('Comment.approved' => 1);
 		if (isset($id)) {
 			$conditions[$model->alias . '.' . $model->primaryKey] = $id;
@@ -313,7 +316,6 @@ class CommentableBehavior extends ModelBehavior {
 		}
 		$model->Behaviors->enable('Containable');
 		$model->Comment->Behaviors->enable('Containable');
-
 		return array('conditions' => $conditions);
 	}
 
