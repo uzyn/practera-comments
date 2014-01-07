@@ -22,7 +22,7 @@ class CleanerHelper extends AppHelper {
  *
  * @var array
  */
-	public $helpers = array('Javascript');
+	public $helpers = array('Js');
 
 /**
  * Replace image thumb
@@ -132,7 +132,7 @@ class CleanerHelper extends AppHelper {
 /**
  * Iteratively remove all unwanted tags and attributes
  *
- * @param string $cleaned 
+ * @param string $cleaned
  * @return string
  */
 	function __remove($cleaned) {
@@ -146,7 +146,7 @@ class CleanerHelper extends AppHelper {
 /**
  * Strip a string of certain tags
  *
- * @param string $cleaned 
+ * @param string $cleaned
  * @return string
  */
 	function __tagsFilter($cleaned) {
@@ -241,8 +241,8 @@ class CleanerHelper extends AppHelper {
 /**
  * strip a tag of certain attributes
  *
- * @param string $attributeSet 
- * @param string $tag 
+ * @param string $attributeSet
+ * @param string $tag
  * @return string
  */
 	function __filterAttr(&$attributeSet, $tag) {
@@ -298,7 +298,7 @@ class CleanerHelper extends AppHelper {
 /**
  * Check pos
  *
- * @param string $attrval 
+ * @param string $attrval
  * @return boolean
  */
 	function __checkPos($attrval) {
@@ -313,9 +313,9 @@ class CleanerHelper extends AppHelper {
 /**
  * filter external image links
  *
- * @param string $tag 
- * @param string $attribute 
- * @param string $attributeValue 
+ * @param string $tag
+ * @param string $attribute
+ * @param string $attributeValue
  * @return boolean
  */
 	function __postFilter($tag, $attribute, &$attributeValue) {
@@ -334,8 +334,8 @@ class CleanerHelper extends AppHelper {
 /**
  * Replace All Image Tags
  *
- * @param string $text 
- * @param string $showVideo 
+ * @param string $text
+ * @param string $showVideo
  * @return string
  */
 	function replaceAllImageTags($text, $showVideo = true) {
@@ -351,8 +351,8 @@ class CleanerHelper extends AppHelper {
 /**
  * convert bbcode to javascript for embedding videos
  *
- * @param string $text 
- * @param string $show 
+ * @param string $text
+ * @param string $show
  * @return string
  */
 	function bbcode2js($text, $show = true) {
@@ -366,8 +366,8 @@ class CleanerHelper extends AppHelper {
 /**
  * BB 2 JS
  *
- * @param string $text 
- * @param string $show 
+ * @param string $text
+ * @param string $show
  * @return string
  */
 	function __bb2js($text, $show = true) {
@@ -379,8 +379,8 @@ class CleanerHelper extends AppHelper {
 				}
 			}
 			if ($vid) {
-				$this->Javascript->link('vipers-video-quicktags', false);
-				$this->Javascript->codeBlock('vvq_googlevideo("vvq_' . $vid . '", "325", "265", "' . $vid . '");', array('inline' => false), true);
+				$this->Js->link('vipers-video-quicktags', false);
+				$this->Js->buffer('vvq_googlevideo("vvq_' . $vid . '", "325", "265", "' . $vid . '");');
 
 				$content = "<p id=\"vvq_$vid\">";
 				$content .= '<a href="http://video.google.com/videoplay?docid=' . $vid .'">';
@@ -403,8 +403,8 @@ class CleanerHelper extends AppHelper {
 				}
 			}
 			if ($vid) {
-				$this->Javascript->link('vipers-video-quicktags', false);
-				$this->Javascript->codeBlock('vvq_youtube("vvq_' . $vid . '", "325", "271", "' . $vid . '");', array('inline' => false), true);
+				$this->Js->link('vipers-video-quicktags', false);
+				$this->Js->buffer('vvq_youtube("vvq_' . $vid . '", "325", "271", "' . $vid . '");');
 
 				$content = "<p id=\"vvq_$vid\">";
 				$content .= '<a href="http://www.youtube.com/watch?v=' . $vid . '">';

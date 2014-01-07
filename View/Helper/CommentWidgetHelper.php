@@ -37,6 +37,7 @@ class CommentWidgetHelper extends AppHelper {
  * @var array
  */
 	public $options = array(
+		'alwaysShow' => true,
 		'target' => false,
 		'ajaxAction' => false,
 		'displayUrlToComment' => false,
@@ -78,8 +79,8 @@ class CommentWidgetHelper extends AppHelper {
 	public function beforeRender($file = null) {
 		parent::beforeRender($file);
 		$View = $this->__view();
-		$this->enabled = !empty($View->viewVars['commentParams']);
-		if ($this->enabled) {
+		$this->enabled = !empty($View->viewVars['commentParams']) || $this->options['alwaysShow'];
+		if ($this->enabled && !$this->options['alwaysShow']) {
 			foreach ($this->__passedParams as $param) {
 				if (empty($View->viewVars['commentParams'][$param])) {
 					$this->enabled = false;
@@ -175,8 +176,9 @@ class CommentWidgetHelper extends AppHelper {
 
 			$allowAddByAuth = ($this->globalParams['allowAnonymousComment'] || !empty($View->viewVars['isAuthorized']));
 
-			$params = array_merge($params, compact('url', 'allowAddByAuth', 'allowAddByModel', 'adminRoute', 'isAddMode', 'viewRecord', 'viewRecordFull', 'theme'));
+			$params = array_merge($params, compact('url', 'isAdmin', 'allowAddByAuth', 'allowAddByModel', 'adminRoute', 'isAddMode', 'viewRecord', 'viewRecordFull', 'theme'));
 			$this->globalParams = Set::merge($this->globalParams, $params);
+
 			$result = $this->element('main');
 		}
 		return $result;

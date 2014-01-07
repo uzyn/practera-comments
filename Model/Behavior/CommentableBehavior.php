@@ -95,7 +95,7 @@ class CommentableBehavior extends ModelBehavior {
 		$model->Comment->bindModel(array('belongsTo' => array(
 			$cfg['userModelAlias'] => array(
 				'className' => $cfg['userModelClass'],
-				'foreignKey' => $cfg['userModelForeignKey'],
+				'foreignKey' => 'user_id',
 				'conditions' => '',
 				'fields' => $cfg['userModelFields'],
 				'counterCache' => true,
