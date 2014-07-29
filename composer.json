@@ -1,0 +1,13 @@
+{
+    "name": "intersective/comments",
+    "description": "Comments plugin for Practera core, extended from cakedc/comments.",
+    "type": "cakephp-plugin",
+    "homepage": "http://www.practera.com",
+    "license": "MIT",
+    "support": {
+        "email": "support@intersective.com"
+    },
+    "require": {
+        "composer/installers": "~1.0"
+    }
+}
